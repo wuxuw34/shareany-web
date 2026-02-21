@@ -1,5 +1,5 @@
 
-interface DockerApp {
+interface FuncApp {
   name: string;
   icon: string;
 }

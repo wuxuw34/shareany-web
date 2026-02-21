@@ -1,0 +1,59 @@
+<template>
+  <div class="relative w-full">
+    <div
+      class="flex flex-row bg-secondary/5"
+      ref="containerRef"
+    >
+      <div
+        v-for="app in FUNC_APPS"
+        :key="app.name"
+        :id="app.name"
+        :class="`flex-1 py-4 flex flex-row items-center justify-center gap-1  text-muted-foreground hover:text-black cursor-pointer text-sm ${
+          active === app.name ? 'text-primary!  bg-primary/5' : ''
+        }`"
+        @click="handleClick(app.name)"
+      >
+        <Icon
+          :icon="app.icon"
+          class="w-4 h-5"
+        />
+        {{ app.name }}
+      </div>
+    </div>
+    <div
+      class="absolute left-0 bottom-0 w-0 flex items-center justify-center h-[3px] bg-primary transition-all"
+      ref="underlineRef"
+    ></div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { Icon } from "@iconify/vue";
+import { FUNC_APPS } from "~/constants/func";
+
+const active = ref<string>(FUNC_APPS[0]!.name);
+const containerRef = ref<HTMLDivElement | null>(null);
+const underlineRef = ref<HTMLDivElement | null>(null);
+
+onMounted(() => {
+  updateUnderline(active.value);
+});
+
+function handleClick(name: string) {
+  active.value = name;
+  updateUnderline(name);
+}
+
+function updateUnderline(name: string) {
+  // 获取到所有子元素
+  const items = containerRef.value?.children;
+  if (!items?.length) return;
+  const item = Array.from(items).find((el) => el.id === name);
+  if (!item) return;
+  // 获取到元素的位置
+  const rect = item.getBoundingClientRect();
+  // 更新元素
+  underlineRef.value!.style.left = `${rect.left}px`;
+  underlineRef.value!.style.width = `${rect.width}px`;
+}
+</script>

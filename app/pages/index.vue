@@ -1,3 +1,3 @@
 <template>
-  <Docker />
+  <Main />
 </template>
