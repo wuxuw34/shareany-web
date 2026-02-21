@@ -1,15 +1,19 @@
 <template>
-  <div class="relative w-full">
+  <div class="relative w-fit">
     <div
-      class="flex flex-row bg-secondary/5"
+      class="absolute left-0 top-[50%] translate-y-[-50%] w-0 flex items-center justify-center h-10 bg-white transition-[left] z-10 rounded-lg"
+      ref="underlineRef"
+    ></div>
+    <div
+      class="flex flex-row bg-primary/10 rounded-md px-2"
       ref="containerRef"
     >
-      <div
+      <button
         v-for="app in FUNC_APPS"
         :key="app.name"
         :id="app.name"
-        :class="`flex-1 py-4 flex flex-row items-center justify-center gap-1  text-muted-foreground hover:text-black cursor-pointer text-sm select-none ${
-          active === app.name ? 'text-primary!  bg-primary/5' : ''
+        :class="`py-4 flex px-6 flex-row items-center justify-center gap-1  text-muted-foreground hover:text-black cursor-pointer text-sm select-none z-20 ${
+          active === app.name ? 'text-primary!' : ''
         }`"
         @click="handleClick(app.name)"
       >
@@ -18,12 +22,8 @@
           class="w-4 h-5"
         />
         {{ app.name }}
-      </div>
+      </button>
     </div>
-    <div
-      class="absolute left-0 bottom-0 w-0 flex items-center justify-center h-[3px] bg-primary transition-all"
-      ref="underlineRef"
-    ></div>
   </div>
 </template>
 

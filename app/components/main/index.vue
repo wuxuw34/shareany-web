@@ -1,7 +1,7 @@
 <template>
   <div class="shadow rounded-md overflow-hidden">
     <MainTab @update="handleTabSelect" />
-    <div class="h-[300px]">
+    <div class="h-[300px] mt-3 shadow-[0px_4px_16px_rgba(0,0,0,0.1)] p-3">
       <MainContent />
     </div>
   </div>
