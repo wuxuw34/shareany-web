@@ -9,5 +9,10 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss() as any
     ]
+  },
+  typescript: {
+    tsConfig: {
+      include: ['./types/**/*.d.ts']
+    }
   }
 })
