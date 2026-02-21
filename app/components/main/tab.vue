@@ -8,7 +8,7 @@
         v-for="app in FUNC_APPS"
         :key="app.name"
         :id="app.name"
-        :class="`flex-1 py-4 flex flex-row items-center justify-center gap-1  text-muted-foreground hover:text-black cursor-pointer text-sm ${
+        :class="`flex-1 py-4 flex flex-row items-center justify-center gap-1  text-muted-foreground hover:text-black cursor-pointer text-sm select-none ${
           active === app.name ? 'text-primary!  bg-primary/5' : ''
         }`"
         @click="handleClick(app.name)"
@@ -31,17 +31,33 @@
 import { Icon } from "@iconify/vue";
 import { FUNC_APPS } from "~/constants/func";
 
+const emits = defineEmits<{
+  (e: "update", name: string): boolean;
+}>();
+
 const active = ref<string>(FUNC_APPS[0]!.name);
 const containerRef = ref<HTMLDivElement | null>(null);
 const underlineRef = ref<HTMLDivElement | null>(null);
 
 onMounted(() => {
   updateUnderline(active.value);
+  window.addEventListener("resize", handleResize);
 });
 
+onUnmounted(() => {
+  window.removeEventListener("resize", handleResize);
+});
+
+function handleResize() {
+  updateUnderline(active.value);
+}
+
 function handleClick(name: string) {
-  active.value = name;
-  updateUnderline(name);
+  if (active.value !== name) {
+    active.value = name;
+    updateUnderline(name);
+    emits("update", name);
+  }
 }
 
 function updateUnderline(name: string) {
